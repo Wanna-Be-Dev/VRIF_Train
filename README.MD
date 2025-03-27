@@ -23,14 +23,6 @@ Handles track logic and calculating curve position.
 - **Gizmos**: Enables visual representation of diffrent track settings.
 
 ## API Methods
-### `TrainController.SetSpeed(float speed)`
-Sets the speed of the train.
-- **Parameters**: `speed` (float) - Desired speed in meters per second.
-- **Example**:
-    ```csharp
-    TrainController.SetSpeed(10.5f);
-    ```
-
 ### `TrainController.SwitchTrack(int trackID)`
 Changes the track path of a train.
 - **Parameters**: `trackID` (int) - The ID of the track to switch to.
@@ -38,11 +30,22 @@ Changes the track path of a train.
     ```csharp
    TrainController.SwitchTrack(3);
     ```
-### `TrainController.StartAutomaticMovement(float duration , float speed)`
-Sets train autmoatic movment for seconds
-- **Parameters**:
-  - `duration` (float) - sets duration of movement in seconds.
-  - `speed` (float)  - speed with which the train moves.
+ ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/TrackSwitch.gif)
+### `TrainController.SetPosition(float position)`
+Set train position on the track percentile from 0 to 1.
+- **Parameters**: `position` (float) - Train position.
 - **Example**:
     ```csharp
-    TrainController.StartAutomaticMovement(3, 5);
+    TrainController.SetPosition(0.4f);
+    ```
+![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/SetPosition.gif)
+### `TrainController.SetDirection(float angle)`
+Set train direction -1f or 1f.
+- **Parameters**:
+  - `angle` (float) - Set train movement position.
+- **Example**:
+    ```csharp
+    TrainController.SetDirection(-1f);
+    ```
+![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/SwitchDirection.gif)
+

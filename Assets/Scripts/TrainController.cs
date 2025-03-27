@@ -64,7 +64,6 @@ namespace TrainComponents
         [Header("Debug Mode")]
         public bool DebugMode = false;
 
-
         public event Action<TrainController> AutoMovementStopped;
         public event Action<TrainController, float> triggerReached;
 
@@ -83,14 +82,10 @@ namespace TrainComponents
                 ControlCheck();
 
             CheckForTriggers();
-            //UpdateGages();
 
             if (isMoving)
             {
-               
                 currentSpeed = SmoothSpeed(ref currentSpeed, speed);
-
-                //UpdateTrainSound();
 
                 //movement logic
                 UpdateTrainPosition(headTrain);
@@ -195,7 +190,6 @@ namespace TrainComponents
                 Debug.Log("train stopped! time:" + duration +"speed:"+ speed);
         }
         //TODO: Make smoother Transition 
-
         private void UpdateTrainSound()
         {
 
@@ -224,8 +218,7 @@ namespace TrainComponents
                     if (track[i].controlPoints != null && track[i].controlPoints.Length > 2)
                         DrawCurveGizmos(track[i].controlPoints, 100);
                 }
-            }
-                   
+            }      
             //Tackpoints
             if (track[currentTrack].gizmosPoints)
             {
@@ -236,7 +229,6 @@ namespace TrainComponents
                         Gizmos.DrawSphere(point.position, 0.25f);
                 }
             }
-
             //tLimit points
             if (track[currentTrack].gizmosLimits)
             {
@@ -249,11 +241,8 @@ namespace TrainComponents
             {
                 Gizmos.color = UnityEngine.Color.yellow;
                 foreach (var track in track[currentTrack].triggers)
-                {
                     DrawPointOnCurve(currentTrack, track.tvalue);
-                }
             }
-            
         }
         public void DrawPointOnCurve(int trackIndex, float tarPosition)
         {
@@ -307,7 +296,7 @@ namespace TrainComponents
         private void ControlCheck()
         {
             if (!DebugMode)
-                speed = speed * direction;
+                speed = Mathf.Abs(speed) * direction;
         }
         // --- Set Methods ---
         public void SetIsMoving(bool state)
@@ -327,11 +316,11 @@ namespace TrainComponents
         }
         public void SetSpeed(float angle)
         {
-            speed = Mathf.Clamp(angle,0,Maxspeed);
+            speed = angle > gearBoxLever ? Maxspeed : 0;
         }
         public void SetDirection(float angle)
         {
-            direction = Mathf.Clamp(angle, -1, 1);
+            direction = angle > 0 ? 1 : -1f;
         }
         public void SetTrack(int index)
         {
