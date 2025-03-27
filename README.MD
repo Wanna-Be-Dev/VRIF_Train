@@ -2,6 +2,8 @@
 
 ## Overview
 Train Controller API is a modular system designed for simulating and controlling train operations. It provides functionalities for train movement, track management, and user interactions.
+## Demonstration
+-
 
 ## Features
 - **Train Movement**: Realistic acceleration, deceleration, and braking mechanics.
@@ -12,16 +14,11 @@ Train Controller API is a modular system designed for simulating and controlling
 ## Components
 ### TrackParameters
 Handles track logic and calculating curve position.
+- **Track limits**: Limits train position between 2 points (from 0 to 1).
 - **Control points**: Caluclates track curve within an array of points.
  ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/BezierCurve.gif)  
-- **Triggers**: Manages individual track pieces.
-- **Junctions**: Connects multiple tracks.
-
-### SignalManager
-Controls railway signals and permissions.
-- **Red/Green Lights**: Dictates train movement.
-- **Collision Prevention**: Prevents trains from overlapping.
-- **Automated Routing**: Directs trains to available tracks.
+- **Triggers**: Triggers events when train reaches points
+- **Gizmos**: Enables visual representation of diffrent track settings.
 
 ## API Methods
 ### `TrainController.SetSpeed(float speed)`
@@ -32,33 +29,18 @@ Sets the speed of the train.
     TrainController.SetSpeed(10.5f);
     ```
 
-### `TrainController.Brake()`
-Applies brakes to stop the train.
-- **Example**:
-    ```csharp
-    TrainController.Brake();
-    ```
-
-### `TrackManager.SwitchTrack(int trackID)`
+### `TrainController.SwitchTrack(int trackID)`
 Changes the track path of a train.
 - **Parameters**: `trackID` (int) - The ID of the track to switch to.
 - **Example**:
     ```csharp
-    TrackManager.SwitchTrack(3);
+   TrainController.SwitchTrack(3);
     ```
-
-### `SignalManager.SetSignal(int signalID, bool state)`
-Sets the signal light state.
+### `TrainController.StartAutomaticMovement(float duration , float speed)`
+Sets train autmoatic movment for seconds
 - **Parameters**:
-  - `signalID` (int) - ID of the signal.
-  - `state` (bool) - `true` for green, `false` for red.
+  - `duration` (float) - sets duration of movement in seconds.
+  - `speed` (float)  - speed with which the train moves.
 - **Example**:
     ```csharp
-    SignalManager.SetSignal(1, true);
-    ```
-
-## Future Improvements
-- **AI-Controlled Trains**: Automated train behavior and traffic management.
-- **Expanded Multiplayer Features**: Improved synchronization and networking.
-- **Advanced Physics Simulation**: More realistic train dynamics.
-- **Customizable Tracks**: User-generated track layouts.
+    TrainController.StartAutomaticMovement(3, 5);

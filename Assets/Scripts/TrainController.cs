@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using TrainComponents;
+using UnityEngine.Events;
 
 namespace TrainComponents
 {
@@ -29,7 +31,6 @@ namespace TrainComponents
         public float Maxspeed = 5f;
 
         private float direction = 0f;
-        public float speedMultiplier = 0.01f; // Multiplier of angle speed
         public float accelerationDuration = 3f;
         public float decelerationDuration = 3f;
 
@@ -43,8 +44,6 @@ namespace TrainComponents
         [Header("Train Control Parameters")]
         public float movementLever = 0f;
         public float gearBoxLever = 0f;
-        private bool brakeIsOff = false;
-        private bool gearIsOn = false;
 
         [Space(10)]
         [Header("Train Audio")]
@@ -60,10 +59,6 @@ namespace TrainComponents
 
         private float _t; // Current position along the curve (0-1)
         private LookupTable _lookupTable; // Precomputed curve data
-
-        [Header("Gages")]
-        [SerializeField]
-        private Gage speedometer;
 
         [Space(20)]
         [Header("Debug Mode")]
@@ -100,8 +95,8 @@ namespace TrainComponents
                 //movement logic
                 UpdateTrainPosition(headTrain);
 
-                //foreach(var wagon in wagon)
-                    //UpdateWagonPosition(wagon);
+                foreach(var wagon in wagon)
+                    UpdateWagonPosition(wagon);
             }
         }
         private float SmoothSpeed(ref float currentValue, float targetValue)
@@ -153,10 +148,10 @@ namespace TrainComponents
         }
         private void UpdateGages()
         {
-            var speedPercentage = currentSpeed / Maxspeed;
+            /*var speedPercentage = currentSpeed / Maxspeed;
             var rotAngle = speedometer.MaxValue * Mathf.Abs(speedPercentage);
             var targetRot = new Vector3(0, 0, rotAngle);
-            speedometer.gameObject.transform.localRotation = Quaternion.Slerp(speedometer.gameObject.transform.localRotation, Quaternion.Euler(targetRot), Time.fixedDeltaTime);
+            speedometer.gameObject.transform.localRotation = Quaternion.Slerp(speedometer.gameObject.transform.localRotation, Quaternion.Euler(targetRot), Time.fixedDeltaTime);*/
         }
 
         private void RotateWheels(Transform[] wheels, Vector3 tangent)
@@ -311,8 +306,6 @@ namespace TrainComponents
         }
         private void ControlCheck()
         {
-            // TODO: Movement abruptly stops WITHOUT smooth transition
-            //isMoving = (brakeIsOff && gearIsOn || DebugMode); 
             if (!DebugMode)
                 speed = speed * direction;
         }
@@ -320,12 +313,9 @@ namespace TrainComponents
         public void SetIsMoving(bool state)
         {
             isMoving = state;
-            brakeIsOff = false;
-            gearIsOn = false;
             direction = 0f;
             speed = 0f;
             currentSpeed = 0f;
-            //UpdateSound(trainMovementState.Neutral);
         }
         public void SetTrackButton()
         {
@@ -333,6 +323,7 @@ namespace TrainComponents
                 currentTrack = 0;
             else
                 currentTrack++;
+            SetTrack(currentTrack);
         }
         public void SetSpeed(float angle)
         {
@@ -341,10 +332,6 @@ namespace TrainComponents
         public void SetDirection(float angle)
         {
             direction = Mathf.Clamp(angle, -1, 1);
-        }
-        public void SetGear(float angle)
-        {
-            gearIsOn = Mathf.Abs(angle) >= gearBoxLever;
         }
         public void SetTrack(int index)
         {
@@ -359,6 +346,11 @@ namespace TrainComponents
         public void SetPosition(float pos)
         {
             _t = Mathf.Clamp(pos,0, 1);
+        }
+        public void SetPositionPercentage(float pos)
+        {
+            pos = pos / 100;
+            _t = Mathf.Clamp(pos, 0, 1);
         }
         public void StartAutomaticMovement(float _duration , float _speed)
         {
@@ -381,13 +373,7 @@ namespace TrainComponents
             Gear
         }
     }
-
-    // Precompute curve 
-    // Если есть возможность необходимо приобразовать линейную кривую бизье в квадартичную,
-    // для более плавного перехода.Так же можно добавить две точки (усы) на каждую
-    // точку для более удобной настройки.
-    // квад. формула кривой безье: C(t)=(1−t)^2P0+2t(1−t)P1+t^2P2
-    // Для более плавной кривой можно еще применить применить алгоритм Де Кастельжо (De Casteljau's algorithm)
+    // Bezier quadratic formula: C(t)=(1−t)^2P0+2t(1−t)P1+t^2P2
     public class LookupTable
     {
         public List<CurvePoint> Points { get; } = new List<CurvePoint>();
@@ -512,6 +498,7 @@ public struct triggerlimit
     public bool isActive;
     [Range(0, 1)]
     public float tvalue;
+    public UnityEvent TriggerAchieved;
 }
 [System.Serializable]
 public class train
@@ -520,12 +507,4 @@ public class train
     public float wagonDistance = 2f;
     public bool rotateWheels = true;
     public Transform[] Wheels;
-}
-
-[System.Serializable]
-public struct Gage
-{
-    public GameObject gameObject;
-    public float minValue;
-    public float MaxValue;
 }
