@@ -48,4 +48,3 @@ Set train direction -1f or 1f.
     TrainController.SetDirection(-1f);
     ```
 ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/SwitchDirection.gif)
-
