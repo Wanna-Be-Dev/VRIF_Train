@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace TrainComponents
 {
@@ -313,7 +314,7 @@ namespace TrainComponents
             // TODO: Movement abruptly stops WITHOUT smooth transition
             //isMoving = (brakeIsOff && gearIsOn || DebugMode); 
             if (!DebugMode)
-                speed = Maxspeed * direction;
+                speed = speed * direction;
         }
         // --- Set Methods ---
         public void SetIsMoving(bool state)
@@ -335,8 +336,11 @@ namespace TrainComponents
         }
         public void SetSpeed(float angle)
         {
-            direction = Mathf.Round(angle / movementLever);
-            Debug.Log(direction);
+            speed = Mathf.Clamp(angle,0,Maxspeed);
+        }
+        public void SetDirection(float angle)
+        {
+            direction = Mathf.Clamp(angle, -1, 1);
         }
         public void SetGear(float angle)
         {
