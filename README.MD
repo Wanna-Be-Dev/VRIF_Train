@@ -18,7 +18,7 @@ Train Controller API is a modular system designed for simulating and controlling
 Handles track logic and calculating curve position.
 - **Track limits**: Limits train position between 2 points (from 0 to 1).
 - **Control points**: Caluclates track curve within an array of points.
- ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/BezierCurve.gif)  
+ ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/BezierCurve.gif)  
 - **Triggers**: Triggers events when train reaches points
 - **Gizmos**: Enables visual representation of diffrent track settings.
 
@@ -30,7 +30,7 @@ Changes the track path of a train.
     ```csharp
    TrainController.SwitchTrack(3);
     ```
- ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/TrackSwitch.gif)
+ ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/TrackSwitch.gif)
 ### `TrainController.SetPosition(float position)`
 Set train position on the track percentile from 0 to 1.
 - **Parameters**: `position` (float) - Train position.
@@ -38,7 +38,7 @@ Set train position on the track percentile from 0 to 1.
     ```csharp
     TrainController.SetPosition(0.4f);
     ```
-![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/SetPosition.gif)
+![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/SetPosition.gif)
 ### `TrainController.SetDirection(float angle)`
 Set train direction -1f or 1f.
 - **Parameters**:
@@ -47,4 +47,4 @@ Set train direction -1f or 1f.
     ```csharp
     TrainController.SetDirection(-1f);
     ```
-![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/SwitchDirection.gif)
+![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/SwitchDirection.gif)
