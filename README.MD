@@ -1,26 +1,20 @@
 # Train Controller API
 
 ## Overview
-Train Controller API is a modular system designed for simulating and controlling train operations within a game engine. It provides functionalities for train movement, track management, and user interactions.
+Train Controller API is a modular system designed for simulating and controlling train operations. It provides functionalities for train movement, track management, and user interactions.
 
 ## Features
 - **Train Movement**: Realistic acceleration, deceleration, and braking mechanics.
 - **Track Switching**: Dynamic track switching with collision detection.
 - **Signal System**: Integrated signaling for train routing and stopping conditions.
-- **Multiplayer Support**: Synchronization for online multiplayer gameplay.
 - **Extensibility**: Modular components for easy customization.
 
 ## Components
-### TrainController
-Manages the core train movement and physics.
-- **Speed Control**: Adjusts train velocity.
-- **Braking System**: Implements friction-based stopping.
-- **Direction Handling**: Enables forward and reverse movement.
-
-### TrackManager
-Handles track logic and train positioning.
-- **Track Switching**: Routes trains dynamically.
-- **Track Segments**: Manages individual track pieces.
+### TrackParameters
+Handles track logic and calculating curve position.
+- **Control points**: Caluclates track curve within an array of points.
+ ![](https://github.com/Wanna-Be-Dev/VRIF_Train/blob/master/README/Media/BezierCurve.gif)  
+- **Triggers**: Manages individual track pieces.
 - **Junctions**: Connects multiple tracks.
 
 ### SignalManager
